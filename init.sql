@@ -1,0 +1,10 @@
+CREATE DATABASE IF NOT EXISTS feedback_app;
+
+USE feedback_app;
+
+CREATE TABLE IF NOT EXISTS feedbacks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  message TEXT,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Visitor Feedback</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Visitor Feedback</h1>
+  <form id="feedbackForm">
+    <input type="text" id="name" placeholder="Your Name" required><br>
+    <textarea id="message" placeholder="Your Feedback" required></textarea><br>
+    <button type="submit">Submit</button>
+  </form>
+  <h2>Recent Feedback</h2>
+  <div id="feedbackList"></div>
+
+  <script>
+    async function loadFeedbacks() {
+      const res = await fetch('/feedbacks');
+      const feedbacks = await res.json();
+      const list = feedbacks.map(f => `<p><strong>${f.name}:</strong> ${f.message}</p>`).join('');
+      document.getElementById('feedbackList').innerHTML = list;
+    }
+
+    document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const message = document.getElementById('message').value;
+
+      await fetch('/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, message })
+      });
+
+      document.getElementById('name').value = '';
+      document.getElementById('message').value = '';
+      loadFeedbacks();
+    });
+
+    loadFeedbacks();
+  </script>
+</body>
+</html>
