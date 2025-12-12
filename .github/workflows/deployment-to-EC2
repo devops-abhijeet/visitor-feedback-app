@@ -3,8 +3,6 @@ name: CI/CD Deployment on EC2
 on:
   push:
     branches: [ "main" ]
-  pull:
-    branches: [ "main" ]
 
 jobs:
 
