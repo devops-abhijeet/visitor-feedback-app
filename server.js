@@ -23,4 +23,4 @@ app.get('/feedbacks', (req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));
