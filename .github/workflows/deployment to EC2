@@ -1,4 +1,4 @@
-name: Docker Image CI/CD
+name: CI/CD Deployment on EC2
 
 on:
   push:
@@ -22,10 +22,10 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build Docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-image-name:latest .
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest .
 
     - name: Push Docker image to Docker Hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-image-name:latest
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
 
     - name: Deploy to EC2 via SSH
       uses: appleboy/ssh-action@v0.1.6
@@ -34,11 +34,11 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/my-image-name:latest
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
 
           # Stop existing container (ignore error if not running)
           docker stop my-app || true
           docker rm my-app || true
 
           # Start new container
-          docker run -d --name my-app -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/my-image-name:latest
+          docker run -d --name my-app -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
