@@ -39,4 +39,4 @@ jobs:
           docker rm my-app || true
 
           # Start new container
-          docker run -d --name my-app -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
+          docker run -d --name my-app -p 4000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
