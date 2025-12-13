@@ -19,16 +19,16 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest .
+          docker build -t ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest .
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest
 
   trivy-scan:
     runs-on: ubuntu-latest
@@ -38,13 +38,13 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
 
       - name: Run Trivy Image Scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
+          image-ref: ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest
           format: table
           severity: HIGH,CRITICAL
           exit-code: 1
@@ -58,11 +58,11 @@ jobs:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{secrets.EC2_HOST}}
+          username: ${{secrets.EC2_USER}}
+          key: ${{secrets.EC2_SSH_KEY}}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
+            docker pull ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest
 
             docker stop my-app || true
             docker rm my-app || true
@@ -70,4 +70,4 @@ jobs:
             docker run -d \
               --name my-app \
               -p 4000:3000 \
-              ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
+              ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest
