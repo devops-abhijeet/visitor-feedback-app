@@ -1,15 +1,17 @@
-FROM node:23.11.1-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json .
+# Copy BOTH files for reproducible builds
+COPY package.json package-lock.json ./
 
-RUN npm install 
+# Install only production dependencies
+RUN npm ci --only=production
 
-RUN npm install mysql2 sql
-
+# Copy application code
 COPY . .
 
 EXPOSE 3000
 
 CMD ["npm", "start"]
+
