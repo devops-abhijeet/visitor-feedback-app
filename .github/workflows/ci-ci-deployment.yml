@@ -51,5 +51,5 @@ jobs:
             docker pull ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest
             docker stop my-app || true
             docker rm my-app || true
-            docker run -d --name --restart=always my-app -p 4000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
+            docker run -d --name my-app --restart=always -p 4000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/visitor-feedback-app:latest
             docker ps
