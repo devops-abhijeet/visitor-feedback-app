@@ -20,7 +20,7 @@ jobs:
           password: ${{secrets.DOCKERHUB_TOKEN}}
       - name: Build docker image
         run: >
-          docker build --file Dockerfile --tag ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest .
+          docker build --no-cache --file Dockerfile --tag ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest .
       - name: Push to docker hub
         run: >
           docker push ${{secrets.DOCKERHUB_USERNAME}}/visitor-feedback-app:latest
